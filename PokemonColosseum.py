@@ -3,6 +3,7 @@ import csv
 import math
 import random
 import time
+import sys
 from Pokemon import Pokemon
 from Move import Move
 
@@ -46,7 +47,7 @@ def convert_to_list(moves):
         move = move.strip()
         if move in move_lookup:
             move_list.append(copy.deepcopy(move_lookup[move]))
-        else: # Moves like "Double-Edge", "Mud Slap", "Baby-Doll Eyes", "Self-Destruct"
+        else:  # Moves like "Double-Edge", "Mud Slap", "Baby-Doll Eyes", "Self-Destruct"
             move_list.append(Move(move, poke_type='Normal', power=0, power_points=0))
     return move_list
 
@@ -79,6 +80,7 @@ def delay_print(message):
     """ Used to get a typing effect in the console """
     for character in message:
         print(character, end='')
+        sys.stdout.flush()
         time.sleep(0.07)
 
 
@@ -203,12 +205,14 @@ def rocket_turn(r_pokemon, p_pokemon):
     delay_print("Team Rocket is about to attack...\n")
     selected_move = get_random_move(r_pokemon.moves)
     calculate_damage(selected_move, r_pokemon, p_pokemon)
+    time.sleep(2)
 
 
 def player_turn(p_pokemon, r_pokemon):
     print_battle_info(p_pokemon, r_pokemon)
     selected_move = turn_menu(player_pokemon)
     calculate_damage(selected_move, p_pokemon, r_pokemon)
+    time.sleep(2)
 
 
 # Introduction and setup
@@ -240,11 +244,11 @@ player_turn_first = random.randint(0, 1)
 if player_turn_first:
     print(f'Team {player_name} to start the attack!')
     print('Let the battle begin!\n')
-    time.sleep(1)
+    time.sleep(2)
 else:
     print('Team Rocket to start the attack!')
     print('Let the battle begin!\n')
-    time.sleep(1)
+    time.sleep(2)
     rocket_turn(rocket_pokemon, player_pokemon)
     if player_pokemon.hit_points <= 0:
         player_pokemon = player_roster.pop()
